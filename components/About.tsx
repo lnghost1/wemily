@@ -12,10 +12,12 @@ const About: React.FC = () => {
           <div className="w-full lg:w-1/2 relative">
             <div className="relative rounded-[2rem] overflow-hidden shadow-2xl aspect-[4/5] max-w-md mx-auto">
               <img 
-                src="https://picsum.photos/600/800?grayscale" 
+                src="/images/about.jpg" 
                 alt="Wemily Piva" 
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
               />
+
+              <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-brand-peach/35 via-brand-peach/10 to-transparent"></div>
               
               {/* Overlay Content */}
               <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-8 text-white">

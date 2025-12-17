@@ -33,6 +33,7 @@ const Services: React.FC = () => {
                   alt={service.title} 
                   className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                 />
+                <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-brand-peach/35 via-brand-peach/10 to-transparent"></div>
                 <div className="absolute top-4 right-4 bg-white p-2 rounded-full shadow-md">
                    {getIcon(service.icon)}
                 </div>
