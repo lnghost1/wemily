@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircle2, Instagram, MapPin } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Instagram, MapPin } from 'lucide-react';
 import { CONTACT_INFO } from '../constants';
 
 const About: React.FC = () => {
@@ -27,6 +27,16 @@ const About: React.FC = () => {
                   <span>Sinop - MT</span>
                 </div>
               </div>
+            </div>
+
+            <div className="mt-8 flex justify-center lg:hidden">
+              <a
+                href="#services"
+                className="text-gray-500 px-8 py-4 rounded-full font-medium hover:text-brand-peach flex items-center justify-center space-x-2 transition-colors group"
+              >
+                <span>Nossos Serviços</span>
+                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+              </a>
             </div>
 
             {/* Instagram Floating Card */}

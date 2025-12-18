@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react';
 
 const Hero: React.FC = () => {
   return (
-    <section id="home" className="relative min-h-screen pt-16 sm:pt-20 md:pt-32 pb-10 sm:pb-14 md:pb-20 flex flex-col justify-start md:justify-center overflow-hidden bg-gradient-to-br from-stone-50 via-pink-50/20 to-white">
+    <section id="home" className="relative min-h-0 md:min-h-screen pt-16 sm:pt-20 md:pt-32 pb-10 sm:pb-14 md:pb-20 flex flex-col justify-start md:justify-center overflow-hidden bg-gradient-to-br from-stone-50 via-pink-50/20 to-white">
       
       {/* Decorative blurred blobs */}
       <div className="absolute top-1/4 -left-10 w-96 h-96 bg-brand-peach/10 rounded-full blur-3xl -z-10"></div>
@@ -33,7 +33,7 @@ const Hero: React.FC = () => {
             <button className="w-full sm:w-auto bg-brand-peach text-white px-8 py-4 rounded-full font-medium hover:bg-rose-400 transition-colors shadow-lg shadow-brand-peach/20">
               Agendar
             </button>
-            <button className="w-full sm:w-auto text-gray-500 px-8 py-4 rounded-full font-medium hover:text-brand-peach flex items-center justify-center space-x-2 transition-colors group">
+            <button className="hidden md:flex w-full sm:w-auto text-gray-500 px-8 py-4 rounded-full font-medium hover:text-brand-peach items-center justify-center space-x-2 transition-colors group">
               <span>Nossos Serviços</span>
               <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
             </button>
