@@ -15,19 +15,21 @@ const Hero: React.FC = () => {
             Estética & Bem-estar
           </p>
           
-          <h1 className="text-5xl md:text-7xl font-serif text-brand-dark leading-tight md:leading-[1.1]">
-            Onde a mente <br />
-            se silencia e o <br />
-            <span className="text-brand-peach italic">coração</span> <br />
-            encontra <br />
-            propósito.
+          <h1 className="font-serif text-brand-dark leading-[1.05] text-[3.2rem] sm:text-6xl md:text-7xl md:leading-[1.1]">
+            <span className="block">Onde a mente</span>
+            <span className="block">se silencia e o</span>
+            <span className="block text-brand-peach italic">coração</span>
+            <span className="block">
+              encontra <span className="hidden md:inline">propósito.</span>
+            </span>
+            <span className="block md:hidden">propósito.</span>
           </h1>
           
-          <p className="text-gray-500 text-lg md:text-xl max-w-lg leading-relaxed font-light">
+          <p className="text-gray-500 text-base sm:text-lg md:text-xl max-w-md md:max-w-lg leading-relaxed font-light mx-auto md:mx-0">
             Permita-se viver uma experiência única de relaxamento e autocuidado com protocolos personalizados para você na nossa Casa Nova.
           </p>
           
-          <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 pt-4">
+          <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4 pt-2 sm:pt-4">
             <button className="w-full sm:w-auto bg-brand-peach text-white px-8 py-4 rounded-full font-medium hover:bg-rose-400 transition-colors shadow-lg shadow-brand-peach/20">
               Agendar
             </button>
