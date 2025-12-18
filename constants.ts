@@ -12,14 +12,14 @@ export const SERVICES: Service[] = [
     id: 1,
     title: "Limpeza de Pele",
     description: "Procedimento profundo para remover impurezas e células mortas, deixando a pele renovada e com viço natural.",
-    image: "/images/service-5.jpg",
+    image: "/images/service-1.jpg",
     icon: "sparkles"
   },
   {
     id: 2,
     title: "Massagem Antiestresse",
     description: "Foco total na redução de tensões em ombros, costas e pescoço. Uma pausa necessária na sua rotina.",
-    image: "/images/service-6.jpg",
+    image: "/images/service-5.jpg",
     icon: "heart"
   },
   {
