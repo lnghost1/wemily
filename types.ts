@@ -2,7 +2,6 @@ export interface Service {
   id: number;
   title: string;
   description: string;
-  price: string;
   image: string;
   icon?: string;
 }

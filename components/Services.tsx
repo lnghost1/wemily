@@ -1,6 +1,7 @@
 import React from 'react';
 import { SERVICES } from '../constants';
 import { ArrowUpRight, Sparkles, Heart, Flower, Droplets } from 'lucide-react';
+import { CONTACT_INFO } from '../constants';
 
 const Services: React.FC = () => {
 
@@ -12,6 +13,13 @@ const Services: React.FC = () => {
       case 'drop': return <Droplets className="text-orange-400" size={20} />;
       default: return <Sparkles className="text-brand-peach" size={20} />;
     }
+  };
+
+  const getWhatsAppLink = (serviceTitle: string) => {
+    const digits = (CONTACT_INFO.phone || '').replace(/\D/g, '');
+    const phoneWithCountry = digits.startsWith('55') ? digits : `55${digits}`;
+    const text = encodeURIComponent(`Olá! Gostaria de agendar ${serviceTitle}.`);
+    return `https://wa.me/${phoneWithCountry}?text=${text}`;
   };
 
   return (
@@ -50,14 +58,24 @@ const Services: React.FC = () => {
               </div>
 
               {/* Footer of Card */}
-              <div className="pt-4 border-t border-gray-100 flex justify-between items-end mt-auto">
-                <div>
-                  <p className="text-xs text-gray-400 uppercase mb-1">Sessão</p>
-                  <p className="text-brand-peach font-semibold text-lg">{service.price}</p>
-                </div>
-                <button className="bg-gray-50 text-brand-dark p-3 rounded-full hover:bg-brand-dark hover:text-white transition-colors">
+              <div className="pt-4 border-t border-gray-100 flex justify-between items-center mt-auto gap-4">
+                <a
+                  href={getWhatsAppLink(service.title)}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-brand-peach font-semibold text-sm sm:text-base hover:underline"
+                >
+                  Agendar no WhatsApp
+                </a>
+                <a
+                  href={getWhatsAppLink(service.title)}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="bg-gray-50 text-brand-dark p-3 rounded-full hover:bg-brand-dark hover:text-white transition-colors"
+                  aria-label={`Agendar ${service.title} no WhatsApp`}
+                >
                   <ArrowUpRight size={20} />
-                </button>
+                </a>
               </div>
 
             </div>
