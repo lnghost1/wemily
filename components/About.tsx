@@ -12,7 +12,7 @@ const About: React.FC = () => {
           <div className="w-full lg:w-1/2 relative">
             <div className="relative rounded-[2rem] overflow-hidden shadow-2xl aspect-[4/5] max-w-md mx-auto">
               <img 
-                src="/images/about.jpg" 
+                src="/images/service-1.jpg" 
                 alt="Wemily Piva" 
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
               />
