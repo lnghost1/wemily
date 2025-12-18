@@ -15,7 +15,7 @@ const Services: React.FC = () => {
   };
 
   return (
-    <section id="services" className="py-24 bg-stone-50">
+    <section id="services" className="py-16 md:py-24 bg-stone-50">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <p className="text-brand-peach uppercase tracking-widest text-sm font-medium mb-2">Nossos Tratamentos</p>

@@ -4,7 +4,7 @@ import { CONTACT_INFO } from '../constants';
 
 const About: React.FC = () => {
   return (
-    <section id="about" className="py-20 bg-white">
+    <section id="about" className="py-16 md:py-20 bg-white">
       <div className="container mx-auto px-6">
         <div className="flex flex-col lg:flex-row gap-16 items-center">
           
@@ -12,7 +12,7 @@ const About: React.FC = () => {
           <div className="w-full lg:w-1/2 relative">
             <div className="relative rounded-[2rem] overflow-hidden shadow-2xl aspect-[4/5] max-w-md mx-auto">
               <img 
-                src="/images/service-1.jpg" 
+                src="/images/about.jpg" 
                 alt="Wemily Piva" 
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
               />

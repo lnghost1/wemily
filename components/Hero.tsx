@@ -1,16 +1,16 @@
-import React from 'react';
+ import React from 'react';
 import { ArrowRight } from 'lucide-react';
 
 const Hero: React.FC = () => {
   return (
-    <section id="home" className="relative min-h-screen pt-32 pb-20 flex flex-col justify-center overflow-hidden bg-gradient-to-br from-stone-50 via-pink-50/20 to-white">
+    <section id="home" className="relative min-h-screen pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-16 md:pb-20 flex flex-col justify-center overflow-hidden bg-gradient-to-br from-stone-50 via-pink-50/20 to-white">
       
       {/* Decorative blurred blobs */}
       <div className="absolute top-1/4 -left-10 w-96 h-96 bg-brand-peach/10 rounded-full blur-3xl -z-10"></div>
       <div className="absolute bottom-1/4 -right-10 w-96 h-96 bg-blue-50/20 rounded-full blur-3xl -z-10"></div>
 
       <div className="container mx-auto px-6 text-center md:text-left flex flex-col md:flex-row items-center">
-        <div className="w-full md:w-3/5 space-y-8">
+        <div className="w-full md:w-3/5 space-y-6 md:space-y-8">
           <p className="text-brand-peach font-medium tracking-widest uppercase text-sm animate-fade-in-up">
             Estética & Bem-estar
           </p>
