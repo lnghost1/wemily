@@ -38,6 +38,9 @@ export const SERVICES: Service[] = [
   }
 ];
 
+export const WHATSAPP_PHONE = '5566992525916';
+export const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_PHONE}`;
+
 export const CONTACT_INFO = {
   address: "Sinop - Mato Grosso, Brasil",
   phone: "(66) 99252-5916",

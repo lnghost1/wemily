@@ -1,4 +1,5 @@
  import React from 'react';
+import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
 const Hero: React.FC = () => {
@@ -30,9 +31,12 @@ const Hero: React.FC = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4 pt-2 sm:pt-4">
-            <button className="w-full sm:w-auto bg-brand-peach text-white px-8 py-4 rounded-full font-medium hover:bg-rose-400 transition-colors shadow-lg shadow-brand-peach/20">
+            <Link
+              to="/agendar"
+              className="w-full sm:w-auto bg-brand-peach text-white px-8 py-4 rounded-full font-medium hover:bg-rose-400 transition-colors shadow-lg shadow-brand-peach/20 text-center"
+            >
               Agendar
-            </button>
+            </Link>
             <button className="hidden md:flex w-full sm:w-auto text-gray-500 px-8 py-4 rounded-full font-medium hover:text-brand-peach items-center justify-center space-x-2 transition-colors group">
               <span>Nossos Serviços</span>
               <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />

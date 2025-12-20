@@ -1,7 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { SERVICES } from '../constants';
 import { ArrowUpRight, Sparkles, Heart, Flower, Droplets } from 'lucide-react';
-import { CONTACT_INFO } from '../constants';
 
 const Services: React.FC = () => {
 
@@ -15,11 +15,9 @@ const Services: React.FC = () => {
     }
   };
 
-  const getWhatsAppLink = (serviceTitle: string) => {
-    const digits = (CONTACT_INFO.phone || '').replace(/\D/g, '');
-    const phoneWithCountry = digits.startsWith('55') ? digits : `55${digits}`;
-    const text = encodeURIComponent(`Olá! Gostaria de agendar ${serviceTitle}.`);
-    return `https://wa.me/${phoneWithCountry}?text=${text}`;
+  const getBookingLink = (serviceTitle: string) => {
+    const text = encodeURIComponent(serviceTitle);
+    return `/agendar?service=${text}`;
   };
 
   return (
@@ -59,23 +57,19 @@ const Services: React.FC = () => {
 
               {/* Footer of Card */}
               <div className="pt-4 border-t border-gray-100 flex justify-between items-center mt-auto gap-4">
-                <a
-                  href={getWhatsAppLink(service.title)}
-                  target="_blank"
-                  rel="noreferrer"
+                <Link
+                  to={getBookingLink(service.title)}
                   className="text-brand-peach font-semibold text-sm sm:text-base hover:underline"
                 >
-                  Agendar no WhatsApp
-                </a>
-                <a
-                  href={getWhatsAppLink(service.title)}
-                  target="_blank"
-                  rel="noreferrer"
+                  Agendar atendimento
+                </Link>
+                <Link
+                  to={getBookingLink(service.title)}
                   className="bg-gray-50 text-brand-dark p-3 rounded-full hover:bg-brand-dark hover:text-white transition-colors"
-                  aria-label={`Agendar ${service.title} no WhatsApp`}
+                  aria-label={`Agendar ${service.title}`}
                 >
                   <ArrowUpRight size={20} />
-                </a>
+                </Link>
               </div>
 
             </div>

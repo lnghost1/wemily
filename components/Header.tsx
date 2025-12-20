@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { NAV_LINKS } from '../constants';
 import { Menu, X, User } from 'lucide-react';
 
@@ -41,13 +42,16 @@ const Header: React.FC = () => {
 
         {/* Desktop Actions */}
         <div className="hidden lg:flex items-center space-x-4 shrink-0">
-          <button className="bg-brand-dark text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-gray-800 transition-colors whitespace-nowrap">
+          <Link
+            to="/agendar"
+            className="bg-brand-dark text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-gray-800 transition-colors whitespace-nowrap"
+          >
             Agendar Agora
-          </button>
-          <button className="flex items-center space-x-2 text-gray-600 hover:text-brand-dark transition-colors">
+          </Link>
+          <Link to="/admin/login" className="flex items-center space-x-2 text-gray-600 hover:text-brand-dark transition-colors">
             <User size={18} />
             <span className="text-sm">Entrar</span>
-          </button>
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -73,13 +77,21 @@ const Header: React.FC = () => {
             </a>
           ))}
           <hr className="border-gray-100" />
-          <button className="bg-brand-dark text-white w-full py-3 rounded-full text-sm font-medium">
+          <Link
+            to="/agendar"
+            className="bg-brand-dark text-white w-full py-3 rounded-full text-sm font-medium text-center"
+            onClick={() => setMobileMenuOpen(false)}
+          >
             Agendar Agora
-          </button>
-          <button className="flex items-center justify-center space-x-2 text-gray-600 py-2">
+          </Link>
+          <Link
+            to="/admin/login"
+            className="flex items-center justify-center space-x-2 text-gray-600 py-2"
+            onClick={() => setMobileMenuOpen(false)}
+          >
             <User size={18} />
             <span>Entrar</span>
-          </button>
+          </Link>
         </div>
       )}
     </header>
