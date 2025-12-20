@@ -1,18 +1,15 @@
 import React from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { SERVICES, WHATSAPP_PHONE } from '../constants';
 import { isSupabaseConfigured, supabase } from '../lib/supabaseClient';
-import { ArrowLeft, CalendarDays, Check, Clock, MessageCircle } from 'lucide-react';
+import { ArrowLeft, CalendarDays, Clock, MessageCircle } from 'lucide-react';
 
-type BookingStep = 'select' | 'form' | 'done';
-
-type AttendanceMode = 'presencial' | 'online';
+type BookingStep = 'select' | 'form';
 
 type BookingForm = {
   serviceTitle: string;
   date: string;
   time: string;
-  mode: AttendanceMode;
   firstTime: boolean;
   name: string;
   phone: string;
@@ -61,6 +58,7 @@ const formatShortPt = (isoDate: string) => {
 };
 
 const BookingPage: React.FC = () => {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const preselectedService = searchParams.get('service') ?? '';
 
@@ -74,7 +72,6 @@ const BookingPage: React.FC = () => {
     serviceTitle: preselectedService || SERVICES[0]?.title || '',
     date: '',
     time: '',
-    mode: 'presencial',
     firstTime: true,
     name: '',
     phone: '',
@@ -146,7 +143,15 @@ const BookingPage: React.FC = () => {
     }
 
     if (!isSupabaseConfigured || !supabase) {
-      setStep('done');
+      navigate('/agendar/obrigado', {
+        replace: true,
+        state: {
+          name: form.name,
+          serviceTitle: form.serviceTitle,
+          date: form.date,
+          time: form.time
+        }
+      });
       return;
     }
 
@@ -159,7 +164,7 @@ const BookingPage: React.FC = () => {
         service_title: form.serviceTitle,
         date: form.date,
         time: form.time,
-        mode: form.mode,
+        mode: 'presencial',
         first_time: form.firstTime,
         client_name: form.name,
         client_phone: form.phone,
@@ -174,7 +179,15 @@ const BookingPage: React.FC = () => {
       const { error: err } = await supabase.from('appointments').insert(payload);
       if (err) throw err;
 
-      setStep('done');
+      navigate('/agendar/obrigado', {
+        replace: true,
+        state: {
+          name: form.name,
+          serviceTitle: form.serviceTitle,
+          date: form.date,
+          time: form.time
+        }
+      });
     } catch (e) {
       setError('Não foi possível confirmar o agendamento.');
     } finally {
@@ -216,12 +229,6 @@ const BookingPage: React.FC = () => {
             <MessageCircle size={18} />
           </a>
         </div>
-
-        {!isSupabaseConfigured && (
-          <div className="mt-6 bg-brand-peach/10 border border-brand-peach/20 text-brand-dark rounded-2xl px-4 py-3 text-sm">
-            Agendamento online temporariamente indisponível. Você ainda pode preencher e confirmar pelo WhatsApp.
-          </div>
-        )}
 
         {error && (
           <div className="mt-4 bg-brand-peach/10 border border-brand-peach/20 text-brand-dark rounded-2xl px-4 py-3 text-sm">
@@ -341,33 +348,6 @@ const BookingPage: React.FC = () => {
               )}
             </div>
 
-            <div className="bg-white rounded-3xl shadow-sm border border-brand-peach/15 p-5">
-              <div className="text-sm text-gray-500 mb-3">Forma de atendimento</div>
-              <div className="grid grid-cols-2 gap-3">
-                <button
-                  type="button"
-                  onClick={() => setForm((p) => ({ ...p, mode: 'presencial' }))}
-                  className={`rounded-2xl border px-4 py-3 font-medium transition-colors ${
-                    form.mode === 'presencial'
-                      ? 'border-brand-peach bg-brand-peach/10 text-brand-dark'
-                      : 'border-gray-100 bg-white text-gray-600'
-                  }`}
-                >
-                  Presencial
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setForm((p) => ({ ...p, mode: 'online' }))}
-                  className={`rounded-2xl border px-4 py-3 font-medium transition-colors ${
-                    form.mode === 'online'
-                      ? 'border-brand-peach bg-brand-peach/10 text-brand-dark'
-                      : 'border-gray-100 bg-white text-gray-600'
-                  }`}
-                >
-                  Online
-                </button>
-              </div>
-            </div>
           </div>
         )}
 
@@ -502,52 +482,6 @@ const BookingPage: React.FC = () => {
           </div>
         )}
 
-        {step === 'done' && (
-          <div className="mt-6 space-y-4">
-            <div className="bg-white rounded-3xl shadow-sm border border-brand-peach/15 p-6">
-              <div className="flex items-center gap-2 text-brand-dark">
-                <Check size={18} className="text-brand-peach" />
-                <div className="font-medium">Agendamento enviado</div>
-              </div>
-              <div className="text-sm text-brand-text mt-2">Em breve você receberá a confirmação.</div>
-
-              <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
-                <div className="bg-brand-light rounded-2xl p-3">
-                  <div className="text-xs text-gray-500">Serviço</div>
-                  <div className="text-brand-dark font-medium line-clamp-2">{form.serviceTitle}</div>
-                </div>
-                <div className="bg-brand-light rounded-2xl p-3">
-                  <div className="text-xs text-gray-500">Data</div>
-                  <div className="text-brand-dark font-medium">{form.date}</div>
-                </div>
-                <div className="bg-brand-light rounded-2xl p-3">
-                  <div className="text-xs text-gray-500">Horário</div>
-                  <div className="text-brand-dark font-medium">{form.time}</div>
-                </div>
-                <div className="bg-brand-light rounded-2xl p-3">
-                  <div className="text-xs text-gray-500">Atendimento</div>
-                  <div className="text-brand-dark font-medium">{form.mode === 'presencial' ? 'Presencial' : 'Online'}</div>
-                </div>
-              </div>
-            </div>
-
-            <a
-              href={waLink}
-              target="_blank"
-              rel="noreferrer"
-              className="w-full bg-brand-peach text-white px-6 py-4 rounded-2xl text-sm font-semibold hover:opacity-95 transition-colors text-center block"
-            >
-              Confirmar no WhatsApp
-            </a>
-
-            <Link
-              to="/"
-              className="w-full bg-white border border-gray-100 text-brand-dark px-6 py-4 rounded-2xl text-sm font-semibold hover:bg-brand-peach/5 transition-colors text-center block"
-            >
-              Voltar para o site
-            </Link>
-          </div>
-        )}
       </div>
 
       {step === 'select' && (
@@ -558,7 +492,7 @@ const BookingPage: React.FC = () => {
               onClick={goToForm}
               disabled={!form.serviceTitle || !form.date || !form.time}
             >
-              Continuar
+              Agendar horário
             </button>
             <a
               href={waLink}
@@ -588,7 +522,7 @@ const BookingPage: React.FC = () => {
               onClick={submit}
               disabled={saving}
             >
-              {saving ? 'Confirmando...' : 'Confirmar agendamento'}
+              {saving ? 'Agendando...' : 'Agendar'}
             </button>
           </div>
         </div>
