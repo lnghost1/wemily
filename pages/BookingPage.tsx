@@ -522,7 +522,7 @@ const BookingPage: React.FC = () => {
               onClick={submit}
               disabled={saving}
             >
-              {saving ? 'Agendando...' : 'Agendar'}
+              {saving ? 'Agendando...' : 'Confirmar agendamento'}
             </button>
           </div>
         </div>

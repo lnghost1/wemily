@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase, isSupabaseConfigured } from '../lib/supabaseClient';
 import {
   Bell,
@@ -69,6 +70,7 @@ const getHour = (time: string) => {
 };
 
 const AdminDashboardPage: React.FC = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
   const [rows, setRows] = React.useState<AppointmentRow[]>([]);
@@ -169,6 +171,13 @@ const AdminDashboardPage: React.FC = () => {
   const updateRowStatus = async (row: AppointmentRow, status: AppointmentRow['status']) => {
     setSelected(row);
     await updateSelected({ status });
+  };
+
+  const logout = async () => {
+    if (supabase) {
+      await supabase.auth.signOut();
+    }
+    navigate('/admin/login', { replace: true });
   };
 
   return (
@@ -395,8 +404,7 @@ const AdminDashboardPage: React.FC = () => {
           <button
             type="button"
             className="text-gray-500"
-            onClick={() => supabase?.auth.signOut()}
-            disabled={!supabase}
+            onClick={logout}
           >
             Sair
           </button>
