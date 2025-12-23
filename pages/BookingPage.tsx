@@ -15,7 +15,6 @@ type BookingForm = {
   phone: string;
   email: string;
   birthDate: string;
-  reason: string;
   hadServiceBefore: boolean;
   importantInfo: string;
   restrictions: string;
@@ -67,6 +66,7 @@ const BookingPage: React.FC = () => {
   const [bookedTimes, setBookedTimes] = React.useState<string[]>([]);
   const [saving, setSaving] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const [successOpen, setSuccessOpen] = React.useState(false);
 
   const [form, setForm] = React.useState<BookingForm>({
     serviceTitle: preselectedService || SERVICES[0]?.title || '',
@@ -77,7 +77,6 @@ const BookingPage: React.FC = () => {
     phone: '',
     email: '',
     birthDate: '',
-    reason: '',
     hadServiceBefore: false,
     importantInfo: '',
     restrictions: '',
@@ -98,17 +97,30 @@ const BookingPage: React.FC = () => {
     setLoadingSlots(true);
     setError(null);
     try {
-      const { data, error: err } = await supabase
-        .from('appointments')
-        .select('time')
-        .eq('date', date)
-        .neq('status', 'cancelado');
+      const { data, error: err } = await supabase.rpc('get_booked_times', { p_date: date });
 
       if (err) throw err;
-      setBookedTimes((data ?? []).map((row: { time: string }) => row.time));
+
+      if (Array.isArray(data)) {
+        const times = (data as Array<Record<string, unknown>>)
+          .map((row) => {
+            const t = row.time ?? row.booked_time;
+            return typeof t === 'string' ? t : null;
+          })
+          .filter((t): t is string => Boolean(t));
+        setBookedTimes(times);
+        return;
+      }
+
+      setBookedTimes([]);
     } catch (e) {
       setBookedTimes([]);
-      setError('Não foi possível carregar os horários.');
+      const message =
+        typeof e === 'object' && e !== null && 'message' in e
+          ? String((e as { message?: unknown }).message ?? '')
+          : '';
+      console.error('Erro ao carregar horários:', e);
+      setError(`Não foi possível carregar os horários.${message ? ` (${message})` : ''}`);
     } finally {
       setLoadingSlots(false);
     }
@@ -143,15 +155,7 @@ const BookingPage: React.FC = () => {
     }
 
     if (!isSupabaseConfigured || !supabase) {
-      navigate('/agendar/obrigado', {
-        replace: true,
-        state: {
-          name: form.name,
-          serviceTitle: form.serviceTitle,
-          date: form.date,
-          time: form.time
-        }
-      });
+      setSuccessOpen(true);
       return;
     }
 
@@ -170,7 +174,6 @@ const BookingPage: React.FC = () => {
         client_phone: form.phone,
         client_email: form.email || null,
         client_birthdate: form.birthDate || null,
-        reason: form.reason || null,
         had_service_before: form.hadServiceBefore,
         important_info: form.importantInfo || null,
         restrictions: form.restrictions || null
@@ -179,15 +182,7 @@ const BookingPage: React.FC = () => {
       const { error: err } = await supabase.from('appointments').insert(payload);
       if (err) throw err;
 
-      navigate('/agendar/obrigado', {
-        replace: true,
-        state: {
-          name: form.name,
-          serviceTitle: form.serviceTitle,
-          date: form.date,
-          time: form.time
-        }
-      });
+      setSuccessOpen(true);
     } catch (e) {
       setError('Não foi possível confirmar o agendamento.');
     } finally {
@@ -442,15 +437,6 @@ const BookingPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm text-brand-text mb-2">Qual o principal motivo do agendamento?</label>
-                  <input
-                    className="w-full border border-gray-200 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-peach/30"
-                    value={form.reason}
-                    onChange={(e) => setForm((p) => ({ ...p, reason: e.target.value }))}
-                  />
-                </div>
-
-                <div>
                   <label className="block text-sm text-brand-text mb-2">Existe algo importante que devemos saber antes do atendimento?</label>
                   <textarea
                     className="w-full border border-gray-200 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-peach/30 min-h-28"
@@ -524,6 +510,45 @@ const BookingPage: React.FC = () => {
             >
               {saving ? 'Agendando...' : 'Confirmar agendamento'}
             </button>
+          </div>
+        </div>
+      )}
+
+      {successOpen && (
+        <div className="fixed inset-0 z-50">
+          <button
+            type="button"
+            className="absolute inset-0 bg-black/40"
+            aria-label="Fechar"
+            onClick={() => setSuccessOpen(false)}
+          />
+          <div className="absolute inset-0 flex items-center justify-center px-6">
+            <div className="w-full max-w-md bg-white rounded-3xl shadow-lg border border-brand-peach/15 p-6">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <div className="text-brand-dark font-semibold">Atendimento registrado</div>
+                  <div className="text-sm text-brand-text mt-1">
+                    Seu agendamento já foi registrado e você irá receber uma mensagem no WhatsApp.
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  className="h-10 w-10 rounded-full bg-white border border-gray-100 shadow-sm flex items-center justify-center text-brand-dark"
+                  aria-label="Fechar"
+                  onClick={() => setSuccessOpen(false)}
+                >
+                  ×
+                </button>
+              </div>
+
+              <button
+                type="button"
+                className="mt-5 w-full bg-brand-peach text-white px-6 py-4 rounded-2xl text-sm font-semibold hover:opacity-95 transition-colors"
+                onClick={() => navigate('/', { replace: true })}
+              >
+                Voltar para o site
+              </button>
+            </div>
           </div>
         </div>
       )}

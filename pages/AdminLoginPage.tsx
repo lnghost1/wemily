@@ -5,14 +5,41 @@ import { Bell, LockKeyhole, Mail } from 'lucide-react';
 
 const AdminLoginPage: React.FC = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = React.useState('');
+  const [usernameOrEmail, setUsernameOrEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
 
+  const adminEmail = import.meta.env.VITE_ADMIN_EMAIL as string | undefined;
+  const adminUsername = import.meta.env.VITE_ADMIN_USERNAME as string | undefined;
+
+  const resolveEmailForLogin = () => {
+    const input = usernameOrEmail.trim();
+    if (!input) return null;
+
+    if (adminUsername && input.toLowerCase() === adminUsername.toLowerCase()) {
+      return adminEmail ?? null;
+    }
+
+    const looksLikeEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input);
+    if (looksLikeEmail) return input;
+
+    return null;
+  };
+
   const submit = async () => {
     if (!isSupabaseConfigured || !supabase) {
       setError('Admin indisponível: configure o Supabase (VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY).');
+      return;
+    }
+
+    const email = resolveEmailForLogin();
+    if (!email) {
+      if (!adminEmail && adminUsername && !usernameOrEmail.trim().includes('@')) {
+        setError('Admin indisponível: configure VITE_ADMIN_EMAIL para usar login por usuário.');
+        return;
+      }
+      setError('Usuário inválido.');
       return;
     }
 
@@ -67,15 +94,15 @@ const AdminLoginPage: React.FC = () => {
 
           <div className="mt-6 space-y-4">
             <div>
-              <label className="block text-sm text-brand-text mb-2">Email</label>
+              <label className="block text-sm text-brand-text mb-2">Usuário</label>
               <div className="relative">
                 <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
                 <input
                   className="w-full border border-gray-200 rounded-2xl pl-11 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-peach/30"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  type="email"
-                  autoComplete="email"
+                  value={usernameOrEmail}
+                  onChange={(e) => setUsernameOrEmail(e.target.value)}
+                  type="text"
+                  autoComplete="username"
                 />
               </div>
             </div>
