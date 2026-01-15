@@ -10,8 +10,11 @@ const AdminLoginPage: React.FC = () => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
 
-  const adminEmail = import.meta.env.VITE_ADMIN_EMAIL as string | undefined;
-  const adminUsername = import.meta.env.VITE_ADMIN_USERNAME as string | undefined;
+  const adminEmailRaw = import.meta.env.VITE_ADMIN_EMAIL as string | undefined;
+  const adminUsernameRaw = import.meta.env.VITE_ADMIN_USERNAME as string | undefined;
+
+  const adminEmail = adminEmailRaw?.trim();
+  const adminUsername = adminUsernameRaw?.trim();
 
   const resolveEmailForLogin = () => {
     const input = usernameOrEmail.trim();
@@ -50,7 +53,12 @@ const AdminLoginPage: React.FC = () => {
       if (err) throw err;
       navigate('/admin', { replace: true });
     } catch (e) {
-      setError('Login inválido.');
+      const message =
+        typeof e === 'object' && e !== null && 'message' in e
+          ? String((e as { message?: unknown }).message ?? '')
+          : '';
+      console.error('Erro no login admin:', e);
+      setError(`Login inválido.${message ? ` (${message})` : ''}`);
     } finally {
       setLoading(false);
     }
