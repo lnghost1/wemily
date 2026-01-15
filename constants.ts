@@ -35,6 +35,13 @@ export const SERVICES: Service[] = [
     description: "Massagem suave que estimula o sistema linfático, eliminando toxinas e reduzindo a retenção de líquidos.",
     image: "/images/service-4.jpg",
     icon: "drop"
+  },
+  {
+    id: 5,
+    title: "EXPERIÊNCIA SPA REVITALIZE",
+    description: "Essa opção une o autocuidado facial, valorizando saúde para sua pele através da hidratação com máscaras de tratamentos faciais e corporal proporcionando alívio de tensões físicas e emocionais",
+    image: "/images/spa-revitalize.jpg",
+    icon: "sparkles"
   }
 ];
 

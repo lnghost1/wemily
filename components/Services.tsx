@@ -34,13 +34,19 @@ const Services: React.FC = () => {
               
               {/* Image Container */}
               <div className="relative h-64 w-full overflow-hidden rounded-2xl mb-6 bg-gray-100">
+                <div className="absolute inset-0 flex items-center justify-center px-6 text-center text-sm text-gray-400">
+                  Imagem em breve
+                </div>
                 <img 
                   src={service.image} 
                   alt={service.title} 
-                  className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                  className="relative z-10 w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                 />
-                <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-brand-peach/35 via-brand-peach/10 to-transparent"></div>
-                <div className="absolute top-4 right-4 bg-white p-2 rounded-full shadow-md">
+                <div className="absolute z-20 inset-x-0 bottom-0 h-16 bg-gradient-to-t from-brand-peach/35 via-brand-peach/10 to-transparent"></div>
+                <div className="absolute z-30 top-4 right-4 bg-white p-2 rounded-full shadow-md">
                    {getIcon(service.icon)}
                 </div>
               </div>
