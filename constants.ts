@@ -40,7 +40,7 @@ export const SERVICES: Service[] = [
     id: 5,
     title: "EXPERIÊNCIA SPA REVITALIZE",
     description: "Essa opção une o autocuidado facial, valorizando saúde para sua pele através da hidratação com máscaras de tratamentos faciais e corporal proporcionando alívio de tensões físicas e emocionais",
-    image: "/images/spa-revitalize.jpg",
+    image: "/images/service-6.jpg",
     icon: "sparkles"
   }
 ];
