@@ -6,6 +6,8 @@ import BookingPage from './pages/BookingPage';
 import RequireAdmin from './components/RequireAdmin';
 import AdminLoginPage from './pages/AdminLoginPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
+import AuthCallbackPage from './pages/AuthCallbackPage';
+import AdminResetPasswordPage from './pages/AdminResetPasswordPage';
 
 function App() {
   return (
@@ -15,7 +17,10 @@ function App() {
         <Route path="/agendar" element={<BookingPage />} />
       </Route>
 
+      <Route path="/auth/callback" element={<AuthCallbackPage />} />
+
       <Route path="/admin/login" element={<AdminLoginPage />} />
+      <Route path="/admin/reset" element={<AdminResetPasswordPage />} />
       <Route element={<RequireAdmin />}>
         <Route path="/admin" element={<AdminDashboardPage />} />
       </Route>
